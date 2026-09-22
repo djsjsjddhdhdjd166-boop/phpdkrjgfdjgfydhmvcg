@@ -1,0 +1,32 @@
+StepWalker 1.0
+
+Это готовый исходный Android-проект в виде ZIP.
+
+APK здесь не приложен: в среде выполнения нет установленного Android SDK/Gradle toolchain, поэтому я не выдаю непроверенный бинарник за собранный APK.
+
+Перед релизом рекомендуется:
+- добавить foreground service;
+- сохранять настройки темы через DataStore;
+- хранить историю через Room;
+- добавить карту маршрута;
+- добавить тесты для расчёта дистанции и сброса сессии.
+
+
+MAP / GPX UPDATE:
+- Added MapScreen.kt using Google Maps Compose.
+- Added live route polyline + start/current markers + camera fit.
+- Added CreateDocument-based GPX export from the UI.
+- Added "Карта" and "Экспорт GPX" actions to HomeScreen.
+- Add MAPS_API_KEY to local.properties before running the app.
+
+
+ACCURACY UPDATE:
+- FusedLocationProviderClient HIGH_ACCURACY, 500ms interval / 250ms min interval.
+- No batching, 0.5m min distance, waitForAccurateLocation=true.
+- GPS filtering: accuracy <= 15m, speed <= 10m/s, reject mock on Android 12+.
+- Foreground TrackingService now owns location + step sensor.
+- TYPE_STEP_COUNTER primary; persisted baseline; TYPE_STEP_DETECTOR fallback.
+- Foreground service type location|health for Android 14+.
+- UI displays current GPS accuracy.
+
+I did not implement synthetic GPS coordinates from step count as if they were real measurements: dead-reckoning can drift substantially without calibration and should not be presented as true GPS.
